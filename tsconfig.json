@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react-jsx",   // Hoặc "react" nếu bạn sử dụng phiên bản trước React 17
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
+  

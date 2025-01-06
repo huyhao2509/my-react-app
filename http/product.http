@@ -1,0 +1,3 @@
+#Cách gọi API với Rest Client
+
+GET https://developer.themoviedb.org/reference/movie-popular-list
