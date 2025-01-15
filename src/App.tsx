@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Banner from './components/Banner/Banner';
 import MoviesList from './components/MoviesList/MoviesList';
 import Navbar from './components/Navbar/Navbar';
+import React from 'react';
 
 function App() {
   const [movie, setMovie] = useState([]);  // Movies for the Popular section
