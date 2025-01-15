@@ -30,8 +30,8 @@ function App() {
         const data2 = await res2.json(); // Now playing movies
 
         // Cập nhật state với dữ liệu nhận được từ API
-        setMovie(data1.results); // Cập nhật popular movies
-        setMovieNow(data2.results); // Cập nhật now playing movies
+        setMovie(data1.results.slice(0,10)); // Cập nhật popular movies
+        setMovieNow(data2.results.slice(0,10)); // Cập nhật now playing movies
 
       } catch (error) {
         console.error("Failed to fetch movies:", error);

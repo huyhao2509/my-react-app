@@ -1,6 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules'; // Sử dụng đường dẫn mới
+import { Autoplay, Navigation } from 'swiper/modules'; // Sử dụng đường dẫn mới
 import 'swiper/css';
 import 'swiper/css/navigation';
 
@@ -27,12 +27,13 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [] }) => {
       {/* Swiper */}
       <Swiper
         spaceBetween={16}
-        slidesPerView={5}
+        slidesPerView={4}
         navigation
         loop
-        modules={[Navigation]}
+        autoplay={{ delay: 5000 }}
+        modules={[Navigation, Autoplay]}
         breakpoints={{
-          1024: { slidesPerView: 5 },
+          1024: { slidesPerView: 4 },
           768: { slidesPerView: 3 },
           480: { slidesPerView: 2 },
           0: { slidesPerView: 1 },
@@ -52,11 +53,11 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [] }) => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out rounded-lg"
                   />
                   {/* Movie Details */}
-                  <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-center">
-                    <p className="text-white font-bold text-lg truncate">
+                  <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-center flex flex-col justify-end">
+                    <p className="text-white font-bold text-lg truncate line-clamp-3">
                       {item.title}
                     </p>
-                    <p className="text-gray-300 text-sm truncate">{genres}</p>
+                    <p className="text-gray-300 text-sm truncate line-clamp-2">{genres}</p>
                   </div>
                 </div>
               </SwiperSlide>
