@@ -14,6 +14,7 @@ interface Movie {
 interface MoviesListProps {
   title: string;
   data: Movie[];
+  genres: Genre[];
 }
 
 interface Genre {
@@ -21,7 +22,14 @@ interface Genre {
   name: string;
 }
 
-const MoviesList: React.FC<MoviesListProps> = ({ title, data = [] }) => {
+const MoviesList: React.FC<MoviesListProps> = ({ title, data = [], genres = [] }) => {
+  // Hàm ánh xạ genre_ids thành tên thể loại
+  const mapGenres = (genreIds: number[]): string => {
+    return genreIds
+      .map((id) => genres.find((genre) => genre.id === id)?.name || 'Unknown')
+      .join(', ');
+  };
+
   return (
     <div className="container mb-10 p-4">
       {/* Section Header */}
@@ -46,10 +54,8 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [] }) => {
       >
         {data.length > 0 ? (
           data.map((item) => {
-            // Kiểm tra và xử lý genre
-            const genres = Array.isArray(item.genre)
-              ? item.genre.join(', ') // Nếu genre là mảng, nối lại thành chuỗi
-              : item.genre || 'Genre not available'; // Nếu không có genre, hiển thị thông báo mặc định
+            // Sử dụng hàm mapGenres với item.genre_ids để lấy tên thể loại
+            const genreNames = mapGenres(item.genre_ids);
 
             return (
               <SwiperSlide key={item.id}>
@@ -71,7 +77,7 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [] }) => {
                     </h3>
 
                     {/* Movie Genre */}
-                    <p className="text-gray-300 text-sm mt-2">{genres}</p>
+                    <p className="text-gray-300 text-sm mt-2">{genreNames}</p>
 
                     {/* Play Button */}
                     <div className="flex justify-end mt-2">
