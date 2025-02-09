@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Banner from "../components/Banner/Banner";
 import MoviesList from "../components/MoviesList/MoviesList";
 import { getPopularMovies, getNowPlayingMovies, getUpcomingMovies, getGenres, getTopRatedMovies } from "../services/MoviesService";
+import Footer from "../components/Footer/Footer";
 
 const Home = () => {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -37,6 +38,7 @@ const Home = () => {
       <MoviesList title="Movies Now Playing" data={nowPlayingMovies} genres={genres} rows={2} />
       <MoviesList title="Upcoming Movies" data={upcomingMovies} genres={genres} rows={2} />
       <MoviesList title="Top Rated Movies" data={topRatedMovies} genres={genres} singleRow={true} /> 
+      <Footer />
     </div>
   );
 };
