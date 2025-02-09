@@ -22,6 +22,7 @@ interface MoviesListProps {
   title: string;
   data: Movie[];
   genres: Genre[];
+  singleRow?: boolean; // Thêm prop mới
 }
 
 const SWIPER_BREAKPOINTS = {
@@ -31,13 +32,23 @@ const SWIPER_BREAKPOINTS = {
   1280: { slidesPerView: 4 },
 } as const;
 
-const MoviesList: React.FC<MoviesListProps> = ({ title, data = [], genres = [] }) => {
+const MoviesList: React.FC<MoviesListProps> = ({ 
+  title, 
+  data = [], 
+  genres = [],
+  singleRow = false // Giá trị mặc định là false
+}) => {
   const navigate = useNavigate();
   
   const [firstRowMovies, secondRowMovies] = React.useMemo(() => {
+    if (singleRow) {
+      // Nếu là single row, trả về tất cả movies trong hàng đầu tiên
+      return [data, []];
+    }
+    // Nếu không, chia đều thành 2 hàng như cũ
     const midPoint = Math.ceil(data.length / 2);
     return [data.slice(0, midPoint), data.slice(midPoint)];
-  }, [data]);
+  }, [data, singleRow]);
 
   const mapGenres = useCallback((genreIds: number[]): string => {
     return genreIds
@@ -74,6 +85,8 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [], genres = [] }
     const navigationPrevRef = useRef<HTMLButtonElement>(null);
     const navigationNextRef = useRef<HTMLButtonElement>(null);
 
+    if (movies.length === 0) return null; // Không render nếu không có phim
+
     return (
       <div className="relative mt-6">
         <Swiper
@@ -88,7 +101,6 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [], genres = [] }
             nextEl: navigationNextRef.current,
           }}
           onSwiper={(swiper) => {
-            // Reassign navigation elements on swiper initialization
             // @ts-ignore
             swiper.params.navigation.prevEl = navigationPrevRef.current;
             // @ts-ignore
@@ -133,7 +145,7 @@ const MoviesList: React.FC<MoviesListProps> = ({ title, data = [], genres = [] }
       ) : (
         <>
           <MovieCarousel movies={firstRowMovies} rowIndex={0} />
-          <MovieCarousel movies={secondRowMovies} rowIndex={1} />
+          {!singleRow && <MovieCarousel movies={secondRowMovies} rowIndex={1} />}
         </>
       )}
     </div>

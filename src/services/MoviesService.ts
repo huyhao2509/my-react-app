@@ -21,4 +21,6 @@ const fetchFromAPI = async (endpoint: string) => {
 
 export const getPopularMovies = async () => fetchFromAPI("movie/popular?language=vi&page=1");
 export const getNowPlayingMovies = async () => fetchFromAPI("movie/now_playing?language=vi&page=1");
+export const getUpcomingMovies = async () => fetchFromAPI("movie/upcoming?language=vi&page=1");
+export const getTopRatedMovies = async () => fetchFromAPI("movie/top_rated?language=vi&page=1");
 export const getGenres = async () => fetchFromAPI("genre/movie/list?language=vi");
