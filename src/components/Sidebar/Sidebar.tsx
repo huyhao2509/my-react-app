@@ -1,31 +1,32 @@
-import { Compass, Film, Flame, Home, Heart } from 'lucide-react'; 
-import React from 'react';
+import React from "react";
+import { Home, Flame, Compass, Film, Heart } from "lucide-react";
 
-// Định nghĩa kiểu dữ liệu cho menuItems
-interface MenuItem {
-    icon: React.ComponentType<{ size: number }>;
-    label: string;
+const Sidebar: React.FC = () => {
+  return (
+    <div className="h-screen w-20 text-gray-400 flex flex-col items-center justify-center fixed left-0 top-0">
+      <div className="flex flex-col gap-6 mt-10">
+        <SidebarItem icon={<Home size={18} />} text="Home" />
+        <SidebarItem icon={<Flame size={18} />} text="Trending" />
+        <SidebarItem icon={<Compass size={18} />} text="Explore" />
+        <SidebarItem icon={<Film size={18} />} text="Movies" />
+        <SidebarItem icon={<Heart size={18} />} text="Favorite" />
+      </div>
+    </div>
+  );
+};
+
+interface SidebarItemProps {
+  icon: JSX.Element;
+  text: string;
 }
 
-export default function Sidebar() {
-    const menuItems: MenuItem[] = [
-        {icon: Home, label: 'Home'},
-        {icon: Flame, label: 'Trending'},
-        {icon: Compass, label: 'Explore'},
-        {icon: Film, label: 'Movies'},
-        {icon: Heart, label: 'Favourites'},
-    ];
+const SidebarItem: React.FC<SidebarItemProps> = ({ icon, text }) => {
+  return (
+    <div className="flex flex-col items-center cursor-pointer hover:text-gray-200 transition">
+      {icon}
+      <span className="text-sm">{text}</span>
+    </div>
+  );
+};
 
-    return (
-        <div className="w-16 h-screen bg-customDark flex flex-col items-center justify-center">
-            <div className='flex flex-col items-center justify-center space-y-4'>
-                {menuItems.map(({ icon: Icon, label }) => (
-                    <div key={label} className='flex flex-col items-center justify-center space-y-1'>
-                        <Icon size={24} />
-                        <span className='text-white text-xs'>{label}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-}
+export default Sidebar;

@@ -3,7 +3,7 @@ import { SearchOutlined, UserOutlined } from '@ant-design/icons';  // Import Ä‘Ã
 
 function Navbar() {
   return (
-    <div className=" pt-4">
+    <div className=" pt-4"> 
       <div className="container p-4 flex items-center justify-between">
         <div className="text-white text-2xl font-bold">
           <a href="">
