@@ -1,34 +1,36 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
-import NowPlaying from "./pages/Nowplaying"; // Import trang Now Playing
+import NowPlaying from "./pages/Nowplaying";
 import Popular from "./pages/Popular";
 import MovieDetails from "./pages/MovieDetails";
-import Movies from "./pages/Movies"; // Import trang Movies
-import Favorite from "./pages/Favorite"; // Import trang Favorite
+import Movies from "./pages/Movies";
+import Favorite from "./pages/Favorite";
+
+const basename = import.meta.env.DEV ? "/" : "/my-react-app/";
+
 
 function App() {
   return (
-    <Router>
+    <Router basename={basename}>
       <div className="flex bg-customDark min-h-screen">
-        {/* Sidebar có width cố định */}
         <div className="w-18">
           <Sidebar />
         </div>
-
-        {/* Nội dung chính */}
         <div className="flex-1 flex flex-col">
           <Navbar />
           <div className="flex-1 p-4">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/nowplaying" element={<NowPlaying />} /> 
+              {/* Khi vào trang "/", tự động chuyển đến trang "/home" */}
+              <Route path="/" element={<Navigate to="home" replace />} />
+
+              <Route path="/home" element={<Home />} />
+              <Route path="/nowplaying" element={<NowPlaying />} />
               <Route path="/popular" element={<Popular />} />
-              <Route path="/movies" element={<Movies />} /> 
+              <Route path="/movies" element={<Movies />} />
               <Route path="/movie/:id" element={<MovieDetails />} />
-              <Route path="/favorites" element={<Favorite/>} />
-              {/* <Route path="*" element={<h1>404 Not Found</h1>} /> */}
+              <Route path="/favorites" element={<Favorite />} />
             </Routes>
           </div>
         </div>

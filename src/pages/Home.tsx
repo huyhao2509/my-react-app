@@ -35,8 +35,8 @@ const Home = () => {
     <div className="bg-customDark text-white">
       <Banner />
       <MoviesList title="Popular Movies" data={popularMovies} genres={genres} singleRow={true} />
-      <MoviesList title="Movies Now Playing" data={nowPlayingMovies} genres={genres} rows={2} />
-      <MoviesList title="Upcoming Movies" data={upcomingMovies} genres={genres} rows={2} />
+      <MoviesList title="Movies Now Playing" data={nowPlayingMovies} genres={genres}  />
+      <MoviesList title="Upcoming Movies" data={upcomingMovies} genres={genres}  />
       <MoviesList title="Top Rated Movies" data={topRatedMovies} genres={genres} singleRow={true} /> 
       <Footer />
     </div>

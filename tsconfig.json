@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "jsx": "react-jsx",   // Hoặc "react" nếu bạn sử dụng phiên bản trước React 17
+    "jsx": "react-jsx",  // Hoặc "react" nếu bạn sử dụng phiên bản trước React 17
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "skipLibCheck": true  // Bỏ qua kiểm tra các file .d.ts
   }
 }
