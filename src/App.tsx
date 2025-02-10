@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import NowPlaying from "./pages/NowPlaying"; // Import trang Now Playing
 import Popular from "./pages/Popular";
 import MovieDetails from "./pages/MovieDetails";
+import Movies from "./pages/Movies"; // Import trang Movies
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/nowplaying" element={<NowPlaying />} /> 
               <Route path="/popular" element={<Popular />} />
-              {/* <Route path="/movie/:id" element={<MovieDetails />} /> */}
+              <Route path="/movies" element={<Movies />} /> 
+              <Route path="/movie/:id" element={<MovieDetails />} />
             </Routes>
           </div>
         </div>
