@@ -6,6 +6,7 @@ import NowPlaying from "./pages/NowPlaying"; // Import trang Now Playing
 import Popular from "./pages/Popular";
 import MovieDetails from "./pages/MovieDetails";
 import Movies from "./pages/Movies"; // Import trang Movies
+import Favorite from "./pages/Favorite"; // Import trang Favorite
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
               <Route path="/popular" element={<Popular />} />
               <Route path="/movies" element={<Movies />} /> 
               <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/favorites" element={<Favorite/>} />
+              <Route path="*" element={<h1>404 Not Found</h1>} />
             </Routes>
           </div>
         </div>
