@@ -1,21 +1,24 @@
+import React from "react";
 import { Input } from "antd";
-import { SearchOutlined, UserOutlined } from '@ant-design/icons';  // Import đúng cách các icon
+import { SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
-function Navbar() {
+const Navbar: React.FC = () => {
   return (
-    <div className=" pt-4"> 
+    <div className="pt-4">
       <div className="container p-4 flex items-center justify-between">
         <div className="text-white text-2xl font-bold">
-          <a href="">
-          <span>MOVIE</span>
-          <span className="text-orange-500">VENNIE</span>
-          </a>
+          {/* Sử dụng Link để điều hướng về trang chủ */}
+          <Link to="/">
+            <span>MOVIE</span>
+            <span className="text-orange-500">VENNIE</span>
+          </Link>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center px-[10px] py-[8px] rounded-full ]">
+          <div className="flex items-center px-[10px] py-[8px] rounded-full">
             <Input
               placeholder="Search Movie"
-              className=" w-full h-8 bg-gray-600 text-gray-50 rounded-lg border-none"
+              className="w-full h-8 bg-gray-600 text-gray-50 rounded-lg border-none"
               suffix={<SearchOutlined className="text-gray-400" />}
             />
           </div>
@@ -26,7 +29,6 @@ function Navbar() {
       </div>
     </div>
   );
-}
+};
 
-export default Navbar;  //
-   
+export default Navbar;

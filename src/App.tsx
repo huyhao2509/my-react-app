@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
-import NowPlaying from "./pages/NowPlaying"; // Import trang Now Playing
+import NowPlaying from "./pages/Nowplaying"; // Import trang Now Playing
 import Popular from "./pages/Popular";
 import MovieDetails from "./pages/MovieDetails";
 import Movies from "./pages/Movies"; // Import trang Movies
@@ -28,7 +28,7 @@ function App() {
               <Route path="/movies" element={<Movies />} /> 
               <Route path="/movie/:id" element={<MovieDetails />} />
               <Route path="/favorites" element={<Favorite/>} />
-              <Route path="*" element={<h1>404 Not Found</h1>} />
+              {/* <Route path="*" element={<h1>404 Not Found</h1>} /> */}
             </Routes>
           </div>
         </div>

@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getPopularMovies } from "../services/MoviesService"; // Hàm API lấy danh sách phim phổ biến
 
+// Định nghĩa kiểu dữ liệu cho một phim
+interface Movie {
+  id: number;
+  title: string;
+  poster_path: string;
+  // Bạn có thể thêm các trường khác như release_date, overview, v.v.
+}
+
 export default function Movies() {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
