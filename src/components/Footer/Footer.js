@@ -1,5 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
-export default function Footer() {
-    return (_jsxs("div", { className: "bg-customDark text-white text-center py-2", children: [_jsx("h2", { className: "text-2xl font-bold", children: "MoviesVennie" }), _jsx("p", { className: "text-sm text-gray-400", children: "All Rights Reserved \u00A9 2025" }), _jsxs("div", { className: "flex justify-center gap-5 mt-3", children: [_jsx("a", { href: "#", className: "text-gray-400 hover:text-blue-500 transition-all", children: _jsx(Facebook, { size: 24 }) }), _jsx("a", { href: "#", className: "text-gray-400 hover:text-blue-400 transition-all", children: _jsx(Twitter, { size: 24 }) }), _jsx("a", { href: "#", className: "text-gray-400 hover:text-pink-500 transition-all", children: _jsx(Instagram, { size: 24 }) }), _jsx("a", { href: "#", className: "text-gray-400 hover:text-red-500 transition-all", children: _jsx(Youtube, { size: 24 }) })] })] }));
-}

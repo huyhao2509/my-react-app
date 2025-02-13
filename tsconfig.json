@@ -2,10 +2,13 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "jsx": "react-jsx",  // Hoặc "react" nếu bạn sử dụng phiên bản trước React 17
+    "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "skipLibCheck": true  // Bỏ qua kiểm tra các file .d.ts
-  }
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "noEmit": true
+  },
+  "include": ["src", "vite.config.ts"]
 }
