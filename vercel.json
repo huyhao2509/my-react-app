@@ -1,5 +1,16 @@
 {
   "rewrites": [
     { "source": "/my-react-app/:path*", "destination": "/index.html" }
+  ],
+  "redirects": [
+    { "source": "/my-react-app", "destination": "/my-react-app/", "statusCode": 301 }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
   ]
 }
