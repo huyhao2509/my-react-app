@@ -7,7 +7,9 @@ import "./index.css";
 const basename = import.meta.env.DEV ? "/" : "/my-react-app/";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter basename={basename}>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
