@@ -1,8 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
-  base: "/", // Mặc định cho Vercel
+  base: "/", // Giữ nguyên cho Vercel
   plugins: [react()],
   build: {
     outDir: "dist",
@@ -15,10 +16,9 @@ export default defineConfig({
     port: 5000,
     open: true,
   },
-  // Fix lỗi 404 khi reload trên route con
   resolve: {
     alias: {
-      "@": "/src",
+      "@": path.resolve(__dirname, "src"), // Đảm bảo alias hoạt động đúng
     },
   },
 });
