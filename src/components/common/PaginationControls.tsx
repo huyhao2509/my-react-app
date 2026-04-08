@@ -12,7 +12,7 @@ export default function PaginationControls({
   const safeTotalPages = Math.max(1, totalPages);
 
   return (
-    <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-white">
+    <div className="mt-8 flex flex-col items-stretch justify-center gap-3 text-white sm:flex-row sm:flex-wrap sm:items-center">
       <button
         type="button"
         onClick={() => onPageChange(page - 1)}

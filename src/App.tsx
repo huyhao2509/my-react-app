@@ -28,18 +28,18 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0f111a] text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#0f111a] text-white">
       <div className="pointer-events-none absolute -top-40 -left-20 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
       <div className="pointer-events-none absolute top-1/3 -right-24 h-96 w-96 rounded-full bg-orange-500/15 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-indigo-500/10 blur-3xl" />
 
-      <div className="relative z-10 flex min-h-screen">
-        <div className="w-20 md:w-24">
+      <div className="relative z-10 min-h-screen md:flex">
+        <div className="hidden md:block md:w-24">
         <Sidebar />
         </div>
-        <div className="flex-1 flex flex-col">
+        <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
-          <div className="flex-1 px-2 pb-6 md:px-4">
+          <div className="flex-1 px-3 pb-6 md:px-4">
             <div key={location.pathname} className="route-enter">
               <AppRoutes />
             </div>

@@ -44,7 +44,7 @@ const MoviesList: React.FC<MoviesListProps> = ({
   }, [genres]);
 
   const MovieCard: React.FC<MovieSummary> = React.memo(({ id, title, poster_path, genre_ids }) => (
-    <div className="group relative h-[340px] overflow-hidden rounded-2xl border border-white/10 bg-[#171b2a]/80 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-cyan-500/10 md:h-[370px]">
+    <div className="group relative h-[300px] overflow-hidden rounded-2xl border border-white/10 bg-[#171b2a]/80 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-cyan-500/10 sm:h-[330px] md:h-[370px]">
       <img
         src={poster_path ? `${import.meta.env.VITE_IMG_URL}${poster_path}` : "/banner.png"}
         alt={`Poster of ${title}`}
@@ -53,7 +53,7 @@ const MoviesList: React.FC<MoviesListProps> = ({
       />
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85" />
       <div className="absolute inset-x-0 bottom-0 z-20 p-4">
-        <h3 className="mb-2 line-clamp-2 text-lg font-bold text-white md:text-xl">{title}</h3>
+        <h3 className="mb-2 line-clamp-2 text-base font-bold text-white md:text-xl">{title}</h3>
         <p className="line-clamp-1 text-xs text-gray-300 md:text-sm">{mapGenres(genre_ids)}</p>
       </div>
       <button
@@ -123,7 +123,7 @@ const MoviesList: React.FC<MoviesListProps> = ({
   return (
     <div className="container mb-10 px-4 md:px-6">
       <div className="glass-panel mb-4 rounded-2xl p-4 shadow-lg md:p-5">
-        <h2 className="text-2xl font-bold text-white md:text-3xl">{title}</h2>
+        <h2 className="text-xl font-bold text-white md:text-3xl">{title}</h2>
       </div>
 
       {data.length === 0 ? (

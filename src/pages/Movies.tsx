@@ -49,7 +49,7 @@ export default function Movies() {
   if (loading) {
     return (
       <div className="container min-h-screen px-4 py-8 md:px-6">
-        <h1 className="text-center text-3xl font-black tracking-tight text-white md:text-4xl">
+        <h1 className="text-center text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">
           {query ? `Search results for "${query}"` : "Discover Movies"}
         </h1>
         <p className="mt-2 text-center text-sm text-gray-400 md:text-base">
@@ -70,7 +70,7 @@ export default function Movies() {
 
   return (
     <div className="container min-h-screen px-4 py-8 md:px-6">
-      <h1 className="text-center text-3xl font-black tracking-tight text-white md:text-4xl">
+      <h1 className="text-center text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">
         {query ? `Search results for "${query}"` : "Discover Movies"}
       </h1>
       <p className="mt-2 text-center text-sm text-gray-400 md:text-base">
@@ -83,14 +83,14 @@ export default function Movies() {
         </div>
       ) : (
         <>
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {movies.map((movie) => (
               <Link to={`/movie/${movie.id}`} key={movie.id} className="block">
                 <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#171b2a]/80 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-cyan-500/10">
                   <img
                     src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/banner.png"}
                     alt={movie.title}
-                    className="h-[330px] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-[280px] w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-[330px]"
                   />
                   <div className="p-4">
                     <h2 className="line-clamp-2 text-lg font-semibold text-white">{movie.title}</h2>
