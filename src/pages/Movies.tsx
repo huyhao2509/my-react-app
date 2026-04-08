@@ -1,33 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { getPopularMovies } from "../services/MoviesService"; // Hàm API lấy danh sách phim phổ biến
-
-// Định nghĩa kiểu dữ liệu cho một phim
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  // Bạn có thể thêm các trường khác như release_date, overview, v.v.
-}
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getPopularMovies, searchMovies } from "../services/MoviesService";
+import type { MovieSummary } from "../types/tmdb";
+import MoviesGridSkeleton from "../components/common/MoviesGridSkeleton";
+import PaginationControls from "../components/common/PaginationControls";
 
 export default function Movies() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<MovieSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query")?.trim() ?? "";
+  const page = Math.max(1, Number(searchParams.get("page") ?? "1") || 1);
+
+  const handlePageChange = (nextPage: number) => {
+    const normalizedPage = Math.max(1, Math.min(totalPages, nextPage));
+    const params = new URLSearchParams(searchParams);
+    params.set("page", String(normalizedPage));
+    navigate(`/movies?${params.toString()}`);
+  };
 
   useEffect(() => {
     async function fetchMovies() {
       try {
         setLoading(true);
         setError("");
-        // Gọi API thật để lấy danh sách phim phổ biến
-        const data = await getPopularMovies();
+        const data = query ? await searchMovies(query, page) : await getPopularMovies(page);
         if (data && data.results) {
           setMovies(data.results);
+          setTotalPages(Math.max(1, data.total_pages || 1));
         } else {
+          setMovies([]);
+          setTotalPages(1);
           setError("Không có dữ liệu phim.");
         }
-      } catch (err) {
+      } catch {
         setError("Có lỗi xảy ra khi tải dữ liệu phim.");
       } finally {
         setLoading(false);
@@ -35,12 +44,18 @@ export default function Movies() {
     }
 
     fetchMovies();
-  }, []);
+  }, [query, page]);
 
   if (loading) {
     return (
-      <div className="p-8 text-white text-center">
-        Đang tải...
+      <div className="container min-h-screen px-4 py-8 md:px-6">
+        <h1 className="text-center text-3xl font-black tracking-tight text-white md:text-4xl">
+          {query ? `Search results for "${query}"` : "Discover Movies"}
+        </h1>
+        <p className="mt-2 text-center text-sm text-gray-400 md:text-base">
+          Bộ sưu tập phim được cập nhật theo thời gian thực.
+        </p>
+        <MoviesGridSkeleton />
       </div>
     );
   }
@@ -54,25 +69,41 @@ export default function Movies() {
   }
 
   return (
-    <div className="container p-8 bg-customDark min-h-screen">
-      <h1 className="text-3xl font-bold text-white text-center mb-4">🎬 Movies</h1>
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {movies.map((movie) => (
-          // Mỗi phim được bọc bởi Link, khi bấm sẽ chuyển đến trang chi tiết phim (route: /movie/:id)
-          <Link to={`/movie/${movie.id}`} key={movie.id} className="block">
-            <div className="bg-gray-800 rounded-lg overflow-hidden shadow-md hover:opacity-80 transition">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-white">{movie.title}</h2>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+    <div className="container min-h-screen px-4 py-8 md:px-6">
+      <h1 className="text-center text-3xl font-black tracking-tight text-white md:text-4xl">
+        {query ? `Search results for "${query}"` : "Discover Movies"}
+      </h1>
+      <p className="mt-2 text-center text-sm text-gray-400 md:text-base">
+        {query ? "Kết quả tìm kiếm theo từ khóa của bạn." : "Chọn phim bạn thích và khám phá ngay."}
+      </p>
+
+      {movies.length === 0 ? (
+        <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-10 text-center text-gray-300 backdrop-blur-md">
+          Không tìm thấy phim phù hợp.
+        </div>
+      ) : (
+        <>
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+            {movies.map((movie) => (
+              <Link to={`/movie/${movie.id}`} key={movie.id} className="block">
+                <div className="group overflow-hidden rounded-2xl border border-white/10 bg-[#171b2a]/80 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-cyan-500/10">
+                  <img
+                    src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "/banner.png"}
+                    alt={movie.title}
+                    className="h-[330px] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="p-4">
+                    <h2 className="line-clamp-2 text-lg font-semibold text-white">{movie.title}</h2>
+                    <p className="mt-2 text-xs uppercase tracking-[0.18em] text-cyan-300/80">Movie Details</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <PaginationControls page={page} totalPages={totalPages} onPageChange={handlePageChange} />
+        </>
+      )}
     </div>
   );
 }

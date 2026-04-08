@@ -1,33 +1,34 @@
-const API_BASE_URL = "https://api.themoviedb.org/3";
-const API_KEY = import.meta.env.VITE_API_KEY;
+import { fetchFromAPI } from "./tmdbClient";
+import type {
+  ApiListResponse,
+  GenreListResponse,
+  MovieDetails,
+  MovieSummary,
+  Review,
+  Video,
+} from "../types/tmdb";
 
-const fetchFromAPI = async (endpoint: string) => {
-  const url = `${API_BASE_URL}/${endpoint}`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  };
-
-  try {
-    const res = await fetch(url, options);
-    if (!res.ok) {
-      throw new Error(`API error: ${res.status} ${res.statusText}`);
-    }
-    return await res.json();
-  } catch (error) {
-    console.error(`❌ Error fetching ${endpoint}:`, error);
-    return null;
-  }
-};
-
-export const getPopularMovies = async (page = 1) => fetchFromAPI(`movie/popular?language=vi&page=${page}`);
-export const getNowPlayingMovies = async (page = 1) => fetchFromAPI(`movie/now_playing?language=vi&page=${page}`);
-export const getUpcomingMovies = async (page = 1) => fetchFromAPI(`movie/upcoming?language=vi&page=${page}`);
-export const getTopRatedMovies = async (page = 1) => fetchFromAPI(`movie/top_rated?language=vi&page=${page}`);
-export const getGenres = async () => fetchFromAPI("genre/movie/list?language=vi");
-export const getMovieDetails = async (movieId: string) => fetchFromAPI(`movie/${movieId}?language=vi`);
-export const getMovieVideos = async (movieId: string) => fetchFromAPI(`movie/${movieId}/videos`);
-export const getMovieReviews = async (movieId: string) => fetchFromAPI(`movie/${movieId}/reviews?language=vi`);
+export const getPopularMovies = async (page = 1) =>
+  fetchFromAPI<ApiListResponse<MovieSummary>>(`movie/popular?language=vi&page=${page}`);
+export const searchMovies = async (query: string, page = 1) =>
+  fetchFromAPI<ApiListResponse<MovieSummary>>(
+    `search/movie?query=${encodeURIComponent(query)}&language=vi&page=${page}`
+  );
+export const getNowPlayingMovies = async (page = 1) =>
+  fetchFromAPI<ApiListResponse<MovieSummary>>(`movie/now_playing?language=vi&page=${page}`);
+export const getUpcomingMovies = async (page = 1) =>
+  fetchFromAPI<ApiListResponse<MovieSummary>>(`movie/upcoming?language=vi&page=${page}`);
+export const getTopRatedMovies = async (page = 1) =>
+  fetchFromAPI<ApiListResponse<MovieSummary>>(`movie/top_rated?language=vi&page=${page}`);
+export const getGenres = async () =>
+  fetchFromAPI<GenreListResponse>("genre/movie/list?language=vi");
+export const getMovieDetails = async (movieId: string) =>
+  fetchFromAPI<MovieDetails>(`movie/${movieId}?language=vi`);
+export const getSimilarMovies = async (movieId: string, page = 1) =>
+  fetchFromAPI<ApiListResponse<MovieSummary>>(
+    `movie/${movieId}/similar?language=vi&page=${page}`
+  );
+export const getMovieVideos = async (movieId: string) =>
+  fetchFromAPI<{ results: Video[] }>(`movie/${movieId}/videos`);
+export const getMovieReviews = async (movieId: string) =>
+  fetchFromAPI<{ results: Review[] }>(`movie/${movieId}/reviews?language=vi`);

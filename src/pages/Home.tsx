@@ -3,13 +3,14 @@ import Banner from "../components/Banner/Banner";
 import MoviesList from "../components/MoviesList/MoviesList";
 import { getPopularMovies, getNowPlayingMovies, getUpcomingMovies, getGenres, getTopRatedMovies } from "../services/MoviesService";
 import Footer from "../components/Footer/Footer";
+import type { Genre, MovieSummary } from "../types/tmdb";
 
 const Home = () => {
-  const [popularMovies, setPopularMovies] = useState([]);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-  const [upcomingMovies, setUpcomingMovies] = useState([]);
-  const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [genres, setGenres] = useState([]);
+  const [popularMovies, setPopularMovies] = useState<MovieSummary[]>([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState<MovieSummary[]>([]);
+  const [upcomingMovies, setUpcomingMovies] = useState<MovieSummary[]>([]);
+  const [topRatedMovies, setTopRatedMovies] = useState<MovieSummary[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -32,12 +33,25 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-customDark text-white">
+    <div className="text-white">
       <Banner />
-      <MoviesList title="Popular Movies" data={popularMovies} genres={genres} singleRow={true} />
-      <MoviesList title="Movies Now Playing" data={nowPlayingMovies} genres={genres}  />
-      <MoviesList title="Upcoming Movies" data={upcomingMovies} genres={genres}  />
-      <MoviesList title="Top Rated Movies" data={topRatedMovies} genres={genres} singleRow={true} /> 
+
+      <section className="fade-up delay-100">
+        <MoviesList title="Popular Movies" data={popularMovies} genres={genres} singleRow={true} />
+      </section>
+
+      <section className="fade-up delay-200">
+        <MoviesList title="Movies Now Playing" data={nowPlayingMovies} genres={genres} />
+      </section>
+
+      <section className="fade-up delay-300">
+        <MoviesList title="Upcoming Movies" data={upcomingMovies} genres={genres} />
+      </section>
+
+      <section className="fade-up delay-400">
+        <MoviesList title="Top Rated Movies" data={topRatedMovies} genres={genres} singleRow={true} />
+      </section>
+
       <Footer />
     </div>
   );

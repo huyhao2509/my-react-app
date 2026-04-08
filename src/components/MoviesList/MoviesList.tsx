@@ -1,28 +1,17 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import { Play } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  genre_ids: number[];
-}
-
-interface Genre {
-  id: number;
-  name: string;
-}
+import type { Genre, MovieSummary } from '../../types/tmdb';
 
 interface MoviesListProps {
   title: string;
-  data: Movie[];
+  data: MovieSummary[];
   genres: Genre[];
-  singleRow?: boolean; // Thêm prop mới
+  singleRow?: boolean;
 }
 
 const SWIPER_BREAKPOINTS = {
@@ -36,16 +25,14 @@ const MoviesList: React.FC<MoviesListProps> = ({
   title, 
   data = [], 
   genres = [],
-  singleRow = false // Giá trị mặc định là false
+  singleRow = false
 }) => {
   const navigate = useNavigate();
   
   const [firstRowMovies, secondRowMovies] = React.useMemo(() => {
     if (singleRow) {
-      // Nếu là single row, trả về tất cả movies trong hàng đầu tiên
       return [data, []];
     }
-    // Nếu không, chia đều thành 2 hàng như cũ
     const midPoint = Math.ceil(data.length / 2);
     return [data.slice(0, midPoint), data.slice(midPoint)];
   }, [data, singleRow]);
@@ -56,36 +43,35 @@ const MoviesList: React.FC<MoviesListProps> = ({
       .join(', ');
   }, [genres]);
 
-  const MovieCard: React.FC<Movie> = React.memo(({ id, title, poster_path, genre_ids }) => (
-    <div className="relative group overflow-hidden rounded-lg shadow-lg h-[370px]">
+  const MovieCard: React.FC<MovieSummary> = React.memo(({ id, title, poster_path, genre_ids }) => (
+    <div className="group relative h-[340px] overflow-hidden rounded-2xl border border-white/10 bg-[#171b2a]/80 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-cyan-500/10 md:h-[370px]">
       <img
-        src={`${import.meta.env.VITE_IMG_URL}${poster_path}`}
+        src={poster_path ? `${import.meta.env.VITE_IMG_URL}${poster_path}` : "/banner.png"}
         alt={`Poster of ${title}`}
-        className="w-full h-full object-cover aspect-[2/3] group-hover:scale-105 transition-transform duration-300 ease-in-out"
+        className="h-full w-full object-cover aspect-[2/3] transition-transform duration-500 ease-out group-hover:scale-105"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-70 z-20" />
-      <div className="absolute inset-x-0 bottom-0 p-4 z-30">
-        <h3 className="text-white text-xl font-bold mb-2">{title}</h3>
-        <p className="text-gray-300 text-sm">{mapGenres(genre_ids)}</p>
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/60 to-transparent opacity-85" />
+      <div className="absolute inset-x-0 bottom-0 z-20 p-4">
+        <h3 className="mb-2 line-clamp-2 text-lg font-bold text-white md:text-xl">{title}</h3>
+        <p className="line-clamp-1 text-xs text-gray-300 md:text-sm">{mapGenres(genre_ids)}</p>
       </div>
       <button
-        className="absolute bottom-4 right-4 z-40 bg-yellow-400 hover:bg-yellow-500 text-black rounded-full p-3 shadow-lg transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
+        className="absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-cyan-400/80 p-3 text-black shadow-lg transition-all duration-300 opacity-0 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 hover:bg-cyan-300"
         onClick={() => navigate(`/movie/${id}`)}
         aria-label={`Play ${title}`}
       >
-        <Play size={24} />
+        <Play size={20} />
       </button>
     </div>
   ));
 
-  const MovieCarousel: React.FC<{ movies: Movie[]; rowIndex: number }> = 
-    React.memo(({ movies, rowIndex }) => {
+  const MovieCarousel: React.FC<{ movies: MovieSummary[] }> = 
+    React.memo(({ movies }) => {
     const navigationPrevRef = useRef<HTMLButtonElement>(null);
     const navigationNextRef = useRef<HTMLButtonElement>(null);
 
-    if (movies.length === 0) return null; // Không render nếu không có phim
+    if (movies.length === 0) return null;
 
     return (
       <div className="relative mt-6">
@@ -101,10 +87,10 @@ const MoviesList: React.FC<MoviesListProps> = ({
             nextEl: navigationNextRef.current,
           }}
           onSwiper={(swiper) => {
-            // @ts-ignore
-            swiper.params.navigation.prevEl = navigationPrevRef.current;
-            // @ts-ignore
-            swiper.params.navigation.nextEl = navigationNextRef.current;
+            if (swiper.params.navigation && typeof swiper.params.navigation !== "boolean") {
+              swiper.params.navigation.prevEl = navigationPrevRef.current;
+              swiper.params.navigation.nextEl = navigationNextRef.current;
+            }
             swiper.navigation.init();
             swiper.navigation.update();
           }}
@@ -117,14 +103,14 @@ const MoviesList: React.FC<MoviesListProps> = ({
 
           <button
             ref={navigationPrevRef}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-50 text-white p-3 bg-black/50 hover:bg-black/70 rounded-full shadow-md cursor-pointer transition-colors"
+            className="absolute left-0 top-1/2 z-50 -translate-y-1/2 cursor-pointer rounded-full border border-white/20 bg-black/50 p-2 text-white shadow-md transition-colors hover:bg-black/70"
             aria-label="Previous slides"
           >
             ❮
           </button>
           <button
             ref={navigationNextRef}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-50 text-white p-3 bg-black/50 hover:bg-black/70 rounded-full shadow-md cursor-pointer transition-colors"
+            className="absolute right-0 top-1/2 z-50 -translate-y-1/2 cursor-pointer rounded-full border border-white/20 bg-black/50 p-2 text-white shadow-md transition-colors hover:bg-black/70"
             aria-label="Next slides"
           >
             ❯
@@ -135,17 +121,17 @@ const MoviesList: React.FC<MoviesListProps> = ({
   });
 
   return (
-    <div className="container mb-10 p-4">
-      <div className="border border-gray-700 rounded-lg bg-gradient-to-b from-gray-800/50 to-transparent p-3 mb-4">
-        <h2 className="text-white text-2xl font-bold">{title}</h2>
+    <div className="container mb-10 px-4 md:px-6">
+      <div className="glass-panel mb-4 rounded-2xl p-4 shadow-lg md:p-5">
+        <h2 className="text-2xl font-bold text-white md:text-3xl">{title}</h2>
       </div>
 
       {data.length === 0 ? (
-        <p className="text-white text-center">No movies available</p>
+        <p className="rounded-2xl border border-white/10 bg-white/5 py-8 text-center text-gray-300">No movies available</p>
       ) : (
         <>
-          <MovieCarousel movies={firstRowMovies} rowIndex={0} />
-          {!singleRow && <MovieCarousel movies={secondRowMovies} rowIndex={1} />}
+          <MovieCarousel movies={firstRowMovies} />
+          {!singleRow && <MovieCarousel movies={secondRowMovies} />}
         </>
       )}
     </div>
