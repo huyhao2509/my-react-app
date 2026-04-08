@@ -4,6 +4,7 @@ import { ArrowUp } from "lucide-react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Navbar from "./components/Navbar/Navbar";
 import AppRoutes from "./routes/AppRoutes";
+import MobileNav from "./components/MobileNav/MobileNav";
 
 function App() {
   const location = useLocation();
@@ -60,13 +61,15 @@ function App() {
         )}
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
-          <div className="flex-1 px-3 pb-6 md:px-4">
+          <div className="flex-1 px-3 pb-24 md:px-4 md:pb-6">
             <div key={location.pathname} className="route-enter">
               <AppRoutes />
             </div>
           </div>
         </div>
       </div>
+
+      <MobileNav />
 
       {showScrollTop && (
         <button
