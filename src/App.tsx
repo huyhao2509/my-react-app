@@ -8,11 +8,30 @@ import AppRoutes from "./routes/AppRoutes";
 function App() {
   const location = useLocation();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.matchMedia("(max-width: 767px)").matches;
+  });
 
   // Scroll to top when location changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const onViewportChange = (event: MediaQueryListEvent) => {
+      setIsMobileViewport(event.matches);
+    };
+
+    setIsMobileViewport(mediaQuery.matches);
+    mediaQuery.addEventListener("change", onViewportChange);
+
+    return () => mediaQuery.removeEventListener("change", onViewportChange);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,9 +53,11 @@ function App() {
       <div className="pointer-events-none absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-indigo-500/10 blur-3xl" />
 
       <div className="relative z-10 min-h-screen md:flex">
-        <div className="hidden md:block md:w-24">
-        <Sidebar />
-        </div>
+        {!isMobileViewport && (
+          <div className="hidden md:block md:w-24">
+            <Sidebar />
+          </div>
+        )}
         <div className="flex min-w-0 flex-1 flex-col">
           <Navbar />
           <div className="flex-1 px-3 pb-6 md:px-4">

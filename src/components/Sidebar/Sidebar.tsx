@@ -4,7 +4,7 @@ import { Home, Flame, Compass, Film, Heart } from "lucide-react";
 
 const Sidebar: React.FC = () => {
   return (
-    <aside className="fixed left-0 top-0 z-30 h-screen w-20 md:w-24 border-r border-white/10 bg-[#0c0f18]/80 backdrop-blur-xl">
+    <aside className="fixed left-0 top-0 z-30 hidden h-screen w-20 border-r border-white/10 bg-[#0c0f18]/80 backdrop-blur-xl md:block md:w-24">
       <div className="flex h-full flex-col items-center justify-between py-6">
         <div className="rounded-2xl border border-white/10 bg-white/5 px-2 py-3 text-center leading-tight shadow-lg">
           <p className="text-[10px] font-semibold tracking-[0.24em] text-cyan-300">MV</p>
