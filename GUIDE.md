@@ -247,11 +247,16 @@ Route được load lười bằng `lazy()` để giảm kích thước bundle b
 
 ## 8. Context và Hook
 
+### `context/favoritesContext.ts`
+
+- Chứa kiểu `FavoritesContextValue` và context object `FavoritesContext`.
+- Mục tiêu: tách context object khỏi file component để tối ưu Fast Refresh.
+
 ### `context/FavoritesContext.tsx`
 
-- Quản lý danh sách phim yêu thích ở cấp toàn app.
-- Lưu danh sách id phim vào localStorage.
-- Cung cấp các hàm:
+- Chứa `FavoritesProvider` để quản lý state yêu thích cho toàn app.
+- Đọc và ghi danh sách id phim vào localStorage.
+- Cung cấp actions:
   - `toggleFavorite`
   - `addFavorite`
   - `removeFavorite`
@@ -408,7 +413,8 @@ Nếu mới học project này, nên đọc theo thứ tự:
 5. `src/components/Navbar/Navbar.tsx`
 6. `src/components/MoviesList/MoviesList.tsx`
 7. `src/services/MoviesService.ts`
-8. `src/context/FavoritesContext.tsx`
+8. `src/context/favoritesContext.ts`
+9. `src/context/FavoritesContext.tsx`
 
 Thứ tự này giúp hiểu:
 
@@ -427,5 +433,3 @@ Thứ tự này giúp hiểu:
 - `context/` cho state dùng chung
 - `types/` cho kiểu dữ liệu
 - `routes/` cho điều hướng
-
-File guide này nên được cập nhật tiếp khi project thêm tính năng mới.

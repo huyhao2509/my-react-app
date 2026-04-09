@@ -1,5 +1,6 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
+import { FavoritesContext, type FavoritesContextValue } from "./favoritesContext";
 
 const FAVORITES_STORAGE_KEY = "movie-favorites";
 
@@ -15,17 +16,6 @@ const readFavorites = (): number[] => {
     return [];
   }
 };
-
-export interface FavoritesContextValue {
-  favoriteIds: number[];
-  isFavorite: (movieId: number) => boolean;
-  addFavorite: (movieId: number) => void;
-  removeFavorite: (movieId: number) => void;
-  toggleFavorite: (movieId: number) => void;
-  clearFavorites: () => void;
-}
-
-export const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
 interface FavoritesProviderProps {
   children: ReactNode;
